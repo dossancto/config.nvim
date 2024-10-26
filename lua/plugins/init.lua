@@ -22,6 +22,9 @@ return {
     "nvim-tree/nvim-web-devicons",
     lazy = true,
   },
+{
+  "mrjones2014/nvim-ts-rainbow",
+},
   {
     "akinsho/bufferline.nvim",
     branch = "main",

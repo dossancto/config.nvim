@@ -24,7 +24,7 @@ M.on_attach = function(_, bufnr)
     require "nvchad.lsp.renamer"()
   end, opts "NvRenamer")
 
-  map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
+  map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, opts "Code action")
   map("n", "gr", vim.lsp.buf.references, opts "Show references")
 end
 
@@ -57,7 +57,22 @@ M.capabilities.textDocument.completion.completionItem = {
 
 M.defaults = function()
   dofile(vim.g.base46_cache .. "lsp")
+  require("lspconfig").elixirls.setup {
+    cmd = { "/home/dossancto/.local/share/lvim/mason/bin/elixir/language_server.sh" },
+  }
+
   require("nvchad.lsp").diagnostic_config()
+
+  require("lspconfig").tsserver.setup {}
+  require("lspconfig").jsonls.setup {}
+  require("lspconfig").tailwindcss.setup {}
+  require("lspconfig").astro.setup {}
+  require'lspconfig'.lemminx.setup{}
+  require("lspconfig").emmet_language_server.setup {}
+  require("lspconfig").docker_compose_language_service.setup {
+    filetypes = { "yaml.docker-compose", "docker-compose.yaml", "docker-compose.yml", "yaml"  },
+  }
+  require("lspconfig").dockerls.setup {}
 
   require("lspconfig").lua_ls.setup {
     on_attach = M.on_attach,
@@ -83,6 +98,12 @@ M.defaults = function()
       },
     },
   }
+
+  require("lspconfig").sqlls.setup {}
+
+  require'lspconfig'.dartls.setup{}
+  require'lspconfig'.jdtls.setup{}
+  require'lspconfig'.gopls.setup{}
 
   require("lspconfig").omnisharp.setup {
     cmd = { "/home/dossancto/.local/share/lvim/mason/bin/omnisharp" },

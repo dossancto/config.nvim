@@ -35,9 +35,3 @@ lspconfig.pyright.setup{
   end,
 }
 
-lspconfig.tsserver.setup{}
-lspconfig.jsonls.setup{}
-lspconfig.tailwindcss.setup{}
-lspconfig.tailwindcss.setup{}
-lspconfig.astro.setup{}
-lspconfig.emmet_language_server.setup{}

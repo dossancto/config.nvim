@@ -1,6 +1,18 @@
 
 local map = vim.keymap.set
 
+local diagnostic_goto = function(next, severity)
+  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    go({ severity = severity })
+  end
+end
+
+map("n", "<Leader>ltr", function() require("neotest").run.run() end, {desc = "run test"})
+map("n", "<Leader>lts", function() require("neotest").summary.toggle() end, {desc = "summary test"})
+map("n", "<Leader>lto", function() require("neotest").output.open({ enter = true }) end, {desc = "output test"})
+
 map("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })
 map("i", "<C-e>", "<End>", { desc = "move end of line" })
 map("i", "<C-h>", "<Left>", { desc = "move left" })
@@ -20,7 +32,9 @@ map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "General Copy whole file" })
 
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "Toggle line number" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "Toggle relative number" })
-map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "Toggle nvcheatsheet" })
+
+-- TODO: Change it
+-- map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "Toggle nvcheatsheet" })
 
 map("n", "<leader>fm", function()
   require("conform").format { lsp_fallback = true }
@@ -45,8 +59,8 @@ map("n", "<leader>/", "gcc", { desc = "Toggle Comment", remap = true })
 map("v", "<leader>/", "gc", { desc = "Toggle comment", remap = true })
 
 -- nvimtree
-map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
-map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "nvimtree focus window" })
+map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
+-- map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "nvimtree focus window" })
 
 -- telescope
 map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" })
@@ -55,7 +69,8 @@ map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help 
 map("n", "<leader>ma", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
 map("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
-map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+-- TODO: Change it
+-- map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
 map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
 map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" })
@@ -99,21 +114,22 @@ map("n", "<leader>wk", function()
   vim.cmd("WhichKey " .. vim.fn.input "WhichKey: ")
 end, { desc = "whichkey query lookup" })
 
+-- TODO: Change it
 -- blankline
-map("n", "<leader>cc", function()
-  local config = { scope = {} }
-  config.scope.exclude = { language = {}, node_type = {} }
-  config.scope.include = { node_type = {} }
-  local node = require("ibl.scope").get(vim.api.nvim_get_current_buf(), config)
-
-  if node then
-    local start_row, _, end_row, _ = node:range()
-    if start_row ~= end_row then
-      vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start_row + 1, 0 })
-      vim.api.nvim_feedkeys("_", "n", true)
-    end
-  end
-end, { desc = "blankline jump to current context" })
+-- map("n", "<leader>cc", function()
+--   local config = { scope = {} }
+--   config.scope.exclude = { language = {}, node_type = {} }
+--   config.scope.include = { node_type = {} }
+--   local node = require("ibl.scope").get(vim.api.nvim_get_current_buf(), config)
+--
+--   if node then
+--     local start_row, _, end_row, _ = node:range()
+--     if start_row ~= end_row then
+--       vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start_row + 1, 0 })
+--       vim.api.nvim_feedkeys("_", "n", true)
+--     end
+--   end
+-- end, { desc = "blankline jump to current context" })
 
 -- add yours here
 
@@ -144,6 +160,9 @@ map("n", "g1", "<cmd>lua require('omnisharp_extended').lsp_definition()<cr>")
 map("n", "g2", "<cmd>lua require('omnisharp_extended').lsp_implementation()<cr>")
 map("n", "g3", "<cmd>lua require('omnisharp_extended').lsp_references()<cr>")
 map("n", "g4", "<cmd>lua require('omnisharp_extended').lsp_type_definition()<cr>")
+
+map("n", "<leader>lj", diagnostic_goto(true), { desc = "Next Diagnostic" })
+map("n", "<leader>lk", diagnostic_goto(false), { desc = "Prev Diagnostic" })
 
 -- DEBUG
 map("n", "<Leader>dU", "<cmd>lua require('dapui').toggle()<cr>")

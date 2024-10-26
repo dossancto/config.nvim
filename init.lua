@@ -1,3 +1,13 @@
+vim.g.neovide_cursor_vfx_mode = "sonicboom"
+vim.g.neovide_theme = 'auto'
+
+vim.g.neovide_scale_factor = 0.8
+
+vim.g.neovide_transparency = 0.8
+vim.g.transparency = 0.8
+
+vim.g.neovide_window_blurred = true
+
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 vim.g.mapleader = " "
 

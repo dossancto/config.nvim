@@ -21,7 +21,7 @@ local options = {
   filters = {
     dotfiles = false,
     custom = { ".git" },
-    exclude = { ".gitignore", ".env" },
+    exclude = { ".gitignore", ".env", ".github" },
   },
   disable_netrw = true,
   hijack_cursor = true,
