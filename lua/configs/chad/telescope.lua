@@ -15,6 +15,9 @@ local options = {
       height = 0.80,
     },
     mappings = {
+      -- i = {
+        -- ["<C-S-v>"] = { "<C-r>+", type = "command" },
+      -- },
       n = { ["q"] = require("telescope.actions").close },
     },
   },

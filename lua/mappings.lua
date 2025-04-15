@@ -1,17 +1,22 @@
-
 local map = vim.keymap.set
 
 local diagnostic_goto = function(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
   severity = severity and vim.diagnostic.severity[severity] or nil
   return function()
-    go({ severity = severity })
+    go { severity = severity }
   end
 end
 
-map("n", "<Leader>ltr", function() require("neotest").run.run() end, {desc = "run test"})
-map("n", "<Leader>lts", function() require("neotest").summary.toggle() end, {desc = "summary test"})
-map("n", "<Leader>lto", function() require("neotest").output.open({ enter = true }) end, {desc = "output test"})
+map("n", "<Leader>ltr", function()
+  require("neotest").run.run()
+end, { desc = "run test" })
+map("n", "<Leader>lts", function()
+  require("neotest").summary.toggle()
+end, { desc = "summary test" })
+map("n", "<Leader>lto", function()
+  require("neotest").output.open { enter = true }
+end, { desc = "output test" })
 
 map("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })
 map("i", "<C-e>", "<End>", { desc = "move end of line" })
@@ -46,7 +51,6 @@ map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP Diagnostic locli
 -- tabufline
 -- map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
 
-
 map("n", "<tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<S-tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 
@@ -73,7 +77,7 @@ map("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = 
 -- map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
 map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
-map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" })
+map("n", "<leader>th", "<cmd>Telescope colorscheme<CR>", { desc = "telescope nvchad themes" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 map(
   "n",
@@ -173,7 +177,8 @@ map("n", "<Leader>di", "<cmd>DapStepInto<cr>")
 map("n", "<Leader>du", "<cmd>DapStepOut<cr>")
 map("n", "<Leader>do", "<cmd>DapStepOver<cr>")
 map("n", "<Leader>dC", "<cmd>lua require'dap'.run_to_cursor()<cr>")
-
+map("n", "<Leader>dl", "<cmd>Telescope dap list_breakpoints<cr>")
+ 
 -- GIT
 map("n", "<Leader>gk", "<cmd>Gitsigns prev_hunk<cr>")
 map("n", "<Leader>gj", "<cmd>Gitsigns next_hunk<cr>")

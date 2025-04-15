@@ -1,8 +1,26 @@
 return {
   {
+    "ackeraa/todo.nvim",
+    lazy = false,
+    config = function()
+      require("todo").setup {
+        opts = {
+          file_path = "/home/dossancto/Documentos/nvim-todo/list.txt",
+        },
+      }
+    end,
+  },
+  {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
+  },
+  {
+    "nvim-telescope/telescope-dap.nvim",
+    lazy = false,
+    config = function()
+      require("telescope").load_extension "dap"
+    end,
   },
   {
     "lewis6991/gitsigns.nvim",
@@ -22,13 +40,13 @@ return {
     "nvim-tree/nvim-web-devicons",
     lazy = true,
   },
-{
-  "mrjones2014/nvim-ts-rainbow",
-},
+  {
+    "mrjones2014/nvim-ts-rainbow",
+  },
   {
     "akinsho/bufferline.nvim",
     branch = "main",
-    lazy=false,
+    lazy = false,
     event = "User FileOpened",
   },
 
@@ -300,7 +318,7 @@ return {
   { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   {
     "nicholasmata/nvim-dap-cs",
-    lazya = false,
+    lazy = false,
     config = function()
       require("dap-cs").setup {
         -- Additional dap configurations can be added.

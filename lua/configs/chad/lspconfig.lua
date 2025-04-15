@@ -1,4 +1,5 @@
 local M = {}
+local py = require "lsp.lang.python"
 local map = vim.keymap.set
 
 -- export on_attach & capabilities
@@ -57,20 +58,37 @@ M.capabilities.textDocument.completion.completionItem = {
 
 M.defaults = function()
   dofile(vim.g.base46_cache .. "lsp")
+
+  local lspconfig = require "lspconfig"
+
+  -- lspconfig.volar.setup {
+  --   -- add filetypes for typescript, javascript and vue
+  --   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+  --   init_options = {
+  --     vue = {
+  --       -- disable hybrid mode
+  --       hybridMode = false,
+  --     },
+  --   },
+  -- }
+
   require("lspconfig").elixirls.setup {
     cmd = { "/home/dossancto/.local/share/lvim/mason/bin/elixir/language_server.sh" },
   }
 
   require("nvchad.lsp").diagnostic_config()
 
-  require("lspconfig").tsserver.setup {}
+  require("lspconfig").ruby_lsp.setup {}
+
+  lspconfig.ts_ls.setup {}
+  -- require("lspconfig").tsserver.setup {}
   require("lspconfig").jsonls.setup {}
   require("lspconfig").tailwindcss.setup {}
   require("lspconfig").astro.setup {}
-  require'lspconfig'.lemminx.setup{}
+  require("lspconfig").lemminx.setup {}
   require("lspconfig").emmet_language_server.setup {}
   require("lspconfig").docker_compose_language_service.setup {
-    filetypes = { "yaml.docker-compose", "docker-compose.yaml", "docker-compose.yml", "yaml"  },
+    filetypes = { "yaml.docker-compose", "docker-compose.yaml", "docker-compose.yml", "yaml" },
   }
   require("lspconfig").dockerls.setup {}
 
@@ -101,12 +119,30 @@ M.defaults = function()
 
   require("lspconfig").sqlls.setup {}
 
-  require'lspconfig'.dartls.setup{}
-  require'lspconfig'.jdtls.setup{}
-  require'lspconfig'.gopls.setup{}
+  require("lspconfig").dartls.setup {}
+  require("lspconfig").jdtls.setup {}
+  require("lspconfig").gopls.setup {}
+
+  require("lspconfig").pyright.setup {
+    settings = {
+      python = {
+        analysis = {
+          typeCheckingMode = "off", -- ["off", "basic", "strict"]
+          useLibraryCodeForTypes = true,
+          completeFunctionParens = true,
+        },
+      },
+    },
+    on_new_config = function(new_config, new_root_dir)
+      py.env(new_root_dir)
+      new_config.settings.python.pythonPath = vim.fn.exepath "python"
+      -- new_config.cmd_env.PATH = py.env(new_root_dir) .. new_config.cmd_env.PATH
+      new_config.settings.python.analysis.extraPaths = { py.pep582(new_root_dir) }
+    end,
+  }
 
   require("lspconfig").omnisharp.setup {
-    cmd = { "/home/dossancto/.local/share/lvim/mason/bin/omnisharp" },
+    cmd = { "/home/dossancto/.local/share/nvim/mason/packages/omnisharp/omnisharp" },
 
     settings = {
       FormattingOptions = {

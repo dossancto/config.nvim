@@ -21,7 +21,7 @@ local options = {
   filters = {
     dotfiles = false,
     custom = { ".git" },
-    exclude = { ".gitignore", ".env", ".github" },
+    exclude = { ".gitignore", ".env", ".github", "tmp", "launchSettings.json" },
   },
   disable_netrw = true,
   hijack_cursor = true,
